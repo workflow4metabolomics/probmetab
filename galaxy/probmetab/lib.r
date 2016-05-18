@@ -90,7 +90,7 @@ probmetab = function(xa, xaP, xaN, variableMetadata, variableMetadataP, variable
 			DB=build.database.kegg(listArguments[["kegg_db"]])
 		}
 	}	
-	#Matching des mass exactes mesur√©es avec les masses des compounds KEGG (pas M+H ou M-H)
+	#Matching des mass exactes mesurees avec les masses des compounds KEGG (pas M+H ou M-H)
 	reactionM = create.reactionM(DB, ionAnnot, ppm.tol=listArguments[["ppm_tol"]])
 	##PROBABILITY RANKING##
 	# number of masses with candidates inside the fixed mass window
@@ -102,16 +102,16 @@ probmetab = function(xa, xaP, xaN, variableMetadata, variableMetadataP, variable
 		# Calculate the ratio between observed and theoretical isotopic patterns.
 		# If you don't have an assessment of carbon offset to carbon number prediction 
 		# skip this step and use the reactionM as input to weigthM function. 
-		#isoPatt <≠ incorporate.isotopes(comb2plus, reactionM, , samp=12:23, DB=DB)  
+		#isoPatt < incorporate.isotopes(comb2plus, reactionM, , samp=12:23, DB=DB)  
 		#  calculate   the   likelihood   of   each   mass   to   compound   assignment   using   mass   accuracy,and isotopic pattern, when present
-		#wl <≠ weightM(isoPatt,intervals=seq(0,1000,by=500), offset=c(3.115712, 3.434146, 2.350798))
+		#wl < weightM(isoPatt,intervals=seq(0,1000,by=500), offset=c(3.115712, 3.434146, 2.350798))
 		
 			#isoPatt=incorporate.isotopes(ionAnnot, reactionM,comb=comb,var=listArguments[["var"]],DB=DB)
 
-		#wl =weightM(reactionM, useIso=true)
+		#wl = weightM(reactionM, useIso=true)
 	#}
 	#else {
-		#wl =weightM(reactionM, useIso=FALSE)
+		#wl = weightM(reactionM, useIso=FALSE)
 	#}
 	wl =weightM(reactionM, useIso=FALSE)	
 	w = design.connection(reactionM)
@@ -205,7 +205,7 @@ cytoscape_output=function(corList,ansConn){
 	return(attrMatrix)
 }
 
-##Functions written by Jean-FranÁois Martin
+##Functions written by Jean-Francois Martin
 
 deter_ioni <- function (aninfo, pm)
 {
