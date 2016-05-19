@@ -12,7 +12,7 @@ sink(log_file, type = "out")
 cat("\tPACKAGE INFO\n")
 pkgs=c("parallel","BiocGenerics", "Biobase", "Rcpp", "mzR", "igraph", "xcms","snow","CAMERA","batch","ProbMetab")
 for(p in pkgs) {
-	suppressPackageStartupMessages( stopifnot( library(p, quietly=TRUE, logical.return=TRUE, character.only=TRUE)))
+	suppressWarnings( suppressPackageStartupMessages( stopifnot( library(p, quietly=TRUE, logical.return=TRUE, character.only=TRUE))))
 	cat(p,"\t",as.character(packageVersion(p)),"\n",sep="")
 }
 
