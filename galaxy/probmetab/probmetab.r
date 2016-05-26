@@ -27,6 +27,9 @@ cat("\tARGUMENTS INFO\n")
 listArguments = parseCommandArgs(evaluate=FALSE) #interpretation of arguments given in command line as an R list of objects
 write.table(as.matrix(listArguments), col.names=F, quote=F, sep='\t')
 
+if (!is.null(listArguments[["zipfile"]])){
+  zipfile= listArguments[["zipfile"]]; listArguments[["zipfile"]]=NULL
+}
 
 # ----- PROCESSING INFILE -----
 cat("\tINFILE PROCESSING INFO\n")
