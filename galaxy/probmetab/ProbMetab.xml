@@ -38,6 +38,10 @@
         #end if
         allowMiss $allowMiss html $html kegg_db $kegg_db ppm_tol $ppm_tol
         opt $opt corths $corths corprob $corprob pcorprob $pcorprob prob $prob
+        
+        #if $zip_file:
+            zipfile $zip_file
+        #end if
 
     </command>
 
@@ -155,7 +159,10 @@
             <param name="organismId" type="text" size="40" value="NULL" label="organismIdorganismId" help="(create.pathway.node.attributes function) KEGG organism id (http://www.kegg.jp/kegg/catalog/org_list.html) to filter possible pathways for known pathways for that organism. Only works for KEGG database for now. Default is NULL (all KEGG organisms).
 " />
 
-        -->
+         -->
+        
+        <!-- To pass planemo test -->
+        <param name="zip_file" type="data" format="no_unzip.zip,zip" label="Zip file" help="Use only if you get a message which say that your original zip file have been deleted on the server." />
 
     </inputs>
 
@@ -190,6 +197,7 @@
         <test>
             <param name="acquisition_options|mode" value="one" />
             <param name="acquisition_options|xa" value="faahOK.xset.group.retcor.group.fillPeaks.annotate.negative.Rdata" />
+            <param name="zip_file" value="faahKO_reduce.zip"  ftype="zip" />
             <output name="log">
                 <assert_contents>
                     <has_text text="ko15 ko16 wt15 wt16" />
@@ -199,14 +207,6 @@
                     <has_text text="Step 4... compute q-values and local fdr" />
                 </assert_contents>
             </output>
-
-
-
-
-
-
-
-        DONE
         </test>
     </tests>
 

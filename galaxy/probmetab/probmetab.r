@@ -27,9 +27,7 @@ cat("\tARGUMENTS INFO\n")
 listArguments = parseCommandArgs(evaluate=FALSE) #interpretation of arguments given in command line as an R list of objects
 write.table(as.matrix(listArguments), col.names=F, quote=F, sep='\t')
 
-if (!is.null(listArguments[["zipfile"]])){
-  zipfile= listArguments[["zipfile"]]; listArguments[["zipfile"]]=NULL
-}
+
 
 # ----- PROCESSING INFILE -----
 cat("\tINFILE PROCESSING INFO\n")
@@ -38,7 +36,12 @@ cat("\tINFILE PROCESSING INFO\n")
 
 if(listArguments[["mode_acquisition"]]=="one") {
 	load(listArguments[["xa"]])
-	#Unzip the chromatograms file for plotting EIC pour the HTML file
+    
+    if (!is.null(listArguments[["zipfile"]])){
+        zipfile= listArguments[["zipfile"]]; listArguments[["zipfile"]]=NULL
+    }
+	
+    #Unzip the chromatograms file for plotting EIC pour the HTML file
 	if(exists("zipfile"))
 	{
 		if (zipfile!=""){
@@ -53,6 +56,11 @@ if(listArguments[["mode_acquisition"]]=="one") {
 	
 } else if(listArguments[["inputs_mode"]]=="two"){
 	load(listArguments[["image_pos"]])
+    
+    if (!is.null(listArguments[["zipfile"]])){
+        zipfile= listArguments[["zipfile"]]; listArguments[["zipfile"]]=NULL
+    }
+    
 	#Unzip the chromatograms file for plotting EIC pour the HTML file
 	if(exists("zipfile")) {
 		if (zipfile!=""){
@@ -69,6 +77,11 @@ if(listArguments[["mode_acquisition"]]=="one") {
 
 
 	load(listArguments[["image_neg"]])
+    
+    if (!is.null(listArguments[["zipfile"]])){
+        zipfile= listArguments[["zipfile"]]; listArguments[["zipfile"]]=NULL
+    }
+    
 	#Unzip the chromatograms file for plotting EIC pour the HTML file
 	if(exists("zipfile")) {
 		
