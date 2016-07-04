@@ -2,18 +2,15 @@
 
     <description>Wrapper function for ProbMetab R package.</description>
 
-    <requirements>
-	    <requirement type="package" version="0.4_1">r-snow</requirement>
-        <requirement type="package" version="1.0">r-probmetab</requirement>
-        <requirement type="package" version="1.1_4">r-batch</requirement>
-    </requirements>
+    <macros>
+        <import>macros.xml</import>
+    </macros>
 
-    <stdio>
-        <exit_code range="1:" level="fatal" />
-    </stdio>
+    <expand macro="requirements"/>
+    <expand macro="stdio"/>
 
     <command>
-        LANG=C Rscript $__tool_directory__/probmetab.r 
+        @COMMAND_CAMERA_SCRIPT@
         #if $acquisition_options.mode == "one":
             mode_acquisition $acquisition_options.mode xa $acquisition_options.xa
             ##if $acquisition_options.xsetnofill_options.option == "show":
@@ -39,9 +36,7 @@
         allowMiss $allowMiss html $html kegg_db $kegg_db ppm_tol $ppm_tol
         opt $opt corths $corths corprob $corprob pcorprob $pcorprob prob $prob
         
-        #if $zip_file:
-            zipfile $zip_file
-        #end if
+        @COMMAND_ZIPFILE_LOAD@
 
     </command>
 
@@ -161,9 +156,7 @@
 
          -->
         
-        <!-- To pass planemo test -->
-        <param name="zip_file" type="data" format="no_unzip.zip,zip" label="Zip file" help="Use only if you get a message which say that your original zip file have been deleted on the server." />
-
+        <expand macro="zipfile_load"/>
     </inputs>
 
     <outputs>
@@ -197,7 +190,8 @@
         <test>
             <param name="acquisition_options|mode" value="one" />
             <param name="acquisition_options|xa" value="faahOK.xset.group.retcor.group.fillPeaks.annotate.negative.Rdata" />
-            <param name="zip_file" value="faahKO_reduce.zip"  ftype="zip" />
+            <param name="zipfile_load_conditional|zipfile_load_select" value="yes" />
+            <param name="zipfile_load_conditional|zip_file" value="faahKO_reduce.zip"  ftype="zip" />
             <output name="log">
                 <assert_contents>
                     <has_text text="ko15 ko16 wt15 wt16" />
@@ -213,25 +207,7 @@
 
     <help>
 	
-.. class:: infomark
-
-**Authors** Ricardo R. Silva et al. (2013) rsilvabioinfo@usp.br
-
- | If you use this tool, please cite: Silva RR and al.(2010). ProbMetab: an R package for Bayesian probabilistic annotation of LC-MS-based metabolomics..
- | For details about this tool, please go to http://labpib.fmrp.usp.br/methods/probmetab/
-
-.. class:: infomark
-
-**Galaxy integration** Misharl Monsoor misharl.monsoor@sb-roscoff.fr ABIMS TEAM, Station biologique de Roscoff.
-
- | Contact support@workflow4metabolomics.org for any questions or concerns about the Galaxy implementation of this tool.
-
-.. class:: infomark
-
-**Contributors**  Ricardo R. Silva rsilvabioinfo@usp.br, Yann Guitton yann.guitton@univ-nantes.fr and Jean-François Martin jean-francois.martin@toulouse.inra.fr
-
----------------------------------------------------
-
+@HELP_AUTHORS@
 
 =========
 ProbMetab
@@ -419,10 +395,8 @@ Changelog/News
 
  
     </help>
-    <citations>
-        <citation type="doi">10.1093/bioinformatics/btu019</citation>
-        <citation type="doi">10.1093/bioinformatics/btu813</citation>
-    </citations>
+
+    <expand macro="citation" />
 </tool>
  
  
