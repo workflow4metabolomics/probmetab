@@ -1,5 +1,5 @@
 categories: [Metabolomics]
-description: '[W4M][LC-MS] ProbMetab - automatic probabilistic LC-MS based metabolome annotation'
+description: '[Metabolomics][W4M][LC-MS] ProbMetab - automatic probabilistic LC-MS based metabolome annotation'
 homepage_url: http://workflow4metabolomics.org
 long_description: 'Part of the W4M project: http://workflow4metabolomics.org. ProbMetab, an R package that promotes substantial improvement in automatic probabilistic liquid chromatography-mass spectrometry-based metabolome annotation. ProbMetab is developped and maintained by Silva et al. - http://labpib.fmrp.usp.br/methods/probmetab/'
 name: probmetab
