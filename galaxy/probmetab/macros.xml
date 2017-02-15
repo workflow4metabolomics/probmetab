@@ -16,29 +16,99 @@
     <token name="@COMMAND_CAMERA_SCRIPT@">
         LANG=C Rscript $__tool_directory__/probmetab.r
     </token>
-    
-    <!-- zipfile load for planemo test -->
-    <token name="@COMMAND_ZIPFILE_LOAD@">
-        #if $zipfile_load_conditional.zipfile_load_select == "yes":
-            #if $zipfile_load_conditional.zip_file:
-                zipfile $zipfile_load_conditional.zip_file
-            #end if
-        #end if    
+
+    <token name="@COMMAND_LOG_EXIT@">
+        ;
+        return=\$?;
+        mv log.txt '$log';
+        cat '$log';
+        sh -c "exit \$return"
     </token>
-    <xml name="zipfile_load">
-        <conditional name="zipfile_load_conditional">
-            <param name="zipfile_load_select" type="select" label="Resubmit your zip file" help="Use only if you get a message which say that your original zip file have been deleted on the server." >
-                <option value="no" >no need</option>
-                <option value="yes" >yes</option>
-            </param>
-            <when value="no">
-            </when>
-            <when value="yes">
-                <param name="zip_file" type="data" format="no_unzip.zip,zip" label="Zip file" />
-            </when>
-        </conditional>
+
+    <!-- raw file load for planemo test -->
+    <token name="@COMMAND_FILE_LOAD_NEUTRAL@">
+        #if $file_load_section_selected.file_load_conditional.file_load_select == "yes":
+            #if $file_load_section_selected.file_load_conditional.inputs.input == "zip_file":
+                zipfile$polarity '$file_load_section_selected.file_load_conditional.inputs.zip_file'
+            #else
+                #set singlefile_galaxyPath = ','.join( [ str( $single_file ) for $single_file in $file_load_section_selected.file_load_conditional.inputs.single_file ] )
+                #set singlefile_sampleName = ','.join( [ str( $single_file.name ) for $single_file in $file_load_section_selected.file_load_conditional.inputs.single_file ] )
+
+                singlefile_galaxyPath$polarity '$singlefile_galaxyPath'
+                singlefile_sampleName$polarity '$singlefile_sampleName'
+            #end if
+        #end if
+    </token>
+
+    <token name="@COMMAND_FILE_LOAD_ONE@">
+        #set file_load_section_selected = $file_load_section
+        #set polarity=""
+        @COMMAND_FILE_LOAD_NEUTRAL@
+    </token>
+
+    <token name="@COMMAND_FILE_LOAD_POSITIVE@">
+        #set file_load_section_selected = $file_load_sectionPositive
+        #set polarity="Positive"
+        @COMMAND_FILE_LOAD_NEUTRAL@
+    </token>
+
+    <token name="@COMMAND_FILE_LOAD_NEGATIVE@">
+        #set file_load_section_selected = $file_load_sectionNegative
+        #set polarity="Negative"
+        @COMMAND_FILE_LOAD_NEUTRAL@
+    </token>
+
+    <xml name="input_file_load" token_polarity="">
+        <section name="file_load_section@POLARITY@" title="@POLARITY@ Resubmit your raw dataset or your zip file">
+            <conditional name="file_load_conditional">
+                <param name="file_load_select" type="select" label="@POLARITY@ Resubmit your dataset or your zip file" help="Use only if you get a message which say that your original dataset or zip file have been deleted on the server." >
+                    <option value="no" >no need</option>
+                    <option value="yes" >yes</option>
+                </param>
+                <when value="no">
+                </when>
+                <when value="yes">
+                    <conditional name="inputs">
+                        <param name="input" type="select" label="Choose your inputs method" >
+                            <option value="zip_file" selected="true">Zip file from your history containing your chromatograms</option>
+                            <option value="single_file">A mzXML or netCDF file from your history</option>
+                        </param>
+                        <when value="zip_file">
+                            <param name="zip_file" type="data" format="no_unzip.zip,zip" label="Zip file" />
+                        </when>
+                        <when value="single_file">
+                            <param name="single_file" type="data" format="mzxml,netcdf" label="Single file"  multiple="true"/>
+                        </when>
+                    </conditional>
+                </when>
+            </conditional>
+        </section>
     </xml>
-    
+
+    <xml name="test_file_load_zip">
+        <section name="file_load_section">
+            <conditional name="file_load_conditional">
+                <param name="file_load_select" value="yes" />
+                <conditional name="inputs">
+                    <param name="input" value="zip_file" />
+                    <param name="zip_file" value="faahKO_reduce.zip"  ftype="zip" />
+                </conditional>
+            </conditional>
+        </section>
+    </xml>
+
+    <xml name="test_file_load_single" token_polarity="">>
+        <section name="file_load_section@POLARITY@">
+            <conditional name="file_load_conditional">
+                <param name="file_load_select" value="yes" />
+                <conditional name="inputs">
+                    <param name="input" value="single_file" />
+                    <param name="single_file" value="wt15.CDF,ko16.CDF,ko15.CDF,wt16.CDF"  ftype="netcdf" />
+                </conditional>
+            </conditional>
+        </section>
+    </xml>
+
     <token name="@HELP_AUTHORS@">
 .. class:: infomark
 
