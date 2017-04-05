@@ -205,7 +205,6 @@
             <param name="html" value="FALSE" />
             <expand macro="test_file_load_zip"/>
             <assert_stdout>
-                <has_text text="ko15 ko16 wt15 wt16" />
                 <has_text text="Step 1... determine cutoff point" />
                 <has_text text="Step 2... estimate parameters of null distribution and eta0" />
                 <has_text text="Step 3... compute p-values and estimate empirical PDF/CDF" />
@@ -220,7 +219,6 @@
             <param name="html" value="FALSE" />
             <expand macro="test_file_load_single"/>
             <assert_stdout>
-                <has_text text="ko15 ko16 wt15 wt16" />
                 <has_text text="Step 1... determine cutoff point" />
                 <has_text text="Step 2... estimate parameters of null distribution and eta0" />
                 <has_text text="Step 3... compute p-values and estimate empirical PDF/CDF" />
