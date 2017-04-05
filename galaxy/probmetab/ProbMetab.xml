@@ -180,9 +180,8 @@
             <filter>(html)</filter>
         </data>
         <data name="sif_output" format="tabular" from_work_dir="sif.tsv" label="Probmetab.CytoScape_output.sif" />
-        <data name="log" format="txt" label="Probmetab.log" />
         <data name="variableMetadata" format="tabular" from_work_dir="variableMetadata.tsv" label="variableMetadata.tsv" >
-            <filter>(acquisition_options['mode'] == 'one')</filter>
+            <filter>(drop_new-file_path['mode'] == 'one')</filter>
         </data>
 
         <data name="CombineMolIon" format="tabular" from_work_dir="CombineMolIon.tsv" label="CombineMolIon.tsv" >
@@ -203,32 +202,30 @@
                 <param name="mode" value="one" />
                 <param name="image" value="faahOK.xset.group.retcor.group.fillPeaks.annotate.negative.Rdata" />
             </conditional>
+            <param name="html" value="FALSE" />
             <expand macro="test_file_load_zip"/>
-            <output name="log">
-                <assert_contents>
-                    <has_text text="ko15 ko16 wt15 wt16" />
-                    <has_text text="Step 1... determine cutoff point" />
-                    <has_text text="Step 2... estimate parameters of null distribution and eta0" />
-                    <has_text text="Step 3... compute p-values and estimate empirical PDF/CDF" />
-                    <has_text text="Step 4... compute q-values and local fdr" />
-                </assert_contents>
-            </output>
+            <assert_stdout>
+                <has_text text="ko15 ko16 wt15 wt16" />
+                <has_text text="Step 1... determine cutoff point" />
+                <has_text text="Step 2... estimate parameters of null distribution and eta0" />
+                <has_text text="Step 3... compute p-values and estimate empirical PDF/CDF" />
+                <has_text text="Step 4... compute q-values and local fdr" />
+            </assert_stdout>
         </test>
         <test>
             <conditional name="acquisition_options">
                 <param name="mode" value="one" />
                 <param name="image" value="faahOK-single.xset.merged.group.retcor.group.fillPeaks.annotate.negative.Rdata" />
             </conditional>
+            <param name="html" value="FALSE" />
             <expand macro="test_file_load_single"/>
-            <output name="log">
-                <assert_contents>
-                    <has_text text="ko15 ko16 wt15 wt16" />
-                    <has_text text="Step 1... determine cutoff point" />
-                    <has_text text="Step 2... estimate parameters of null distribution and eta0" />
-                    <has_text text="Step 3... compute p-values and estimate empirical PDF/CDF" />
-                    <has_text text="Step 4... compute q-values and local fdr" />
-                </assert_contents>
-            </output>
+            <assert_stdout>
+                <has_text text="ko15 ko16 wt15 wt16" />
+                <has_text text="Step 1... determine cutoff point" />
+                <has_text text="Step 2... estimate parameters of null distribution and eta0" />
+                <has_text text="Step 3... compute p-values and estimate empirical PDF/CDF" />
+                <has_text text="Step 4... compute q-values and local fdr" />
+            </assert_stdout>
         </test>
     </tests>
 
