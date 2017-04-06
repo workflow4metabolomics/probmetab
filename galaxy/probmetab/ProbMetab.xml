@@ -41,18 +41,25 @@
 
         #end if
 
-        #if $option_toexclude.option == "show":
-            toexclude $option_toexclude.toexclude
+        ## Extraction of CAMERA annotation [get.annot]
+        allowMiss $getannot.allowMiss
+        #if $getannot.option_toexclude.option == "show":
+            toexclude $getannot.option_toexclude.toexclude
         #end if
-        allowMiss $allowMiss
-        html $html
-        kegg_db $kegg_db
-        ppm_tol $ppm_tol
-        opt $opt
-        corths $corths
-        corprob $corprob
-        pcorprob $pcorprob
-        prob $prob
+
+        ## Database matching [create.reactionM]
+        kegg_db $db.kegg_db
+        ppm_tol $db.ppm_tol
+
+        ## Probability calculations matrix export [export.class.table]
+        prob $export.prob
+        html $export.html
+
+        ## Calculate the correlations and partial correlations and cross reference then with reactions [reac2cor]
+        opt $reac2cor.opt
+        corprob $reac2cor.corprob
+        pcorprob $reac2cor.pcorprob
+        corths $reac2cor.corths
 
         @COMMAND_LOG_EXIT@
 
@@ -114,55 +121,67 @@
             </when>
         </conditional>
 
-        <param name="allowMiss" type="boolean" checked="true" truevalue="TRUE" falsevalue="FALSE" label="Retrieves peaks with no eviendence of adduct or isotope" help=" [allowMiss] (ionAnnot function) Logical, annotate also the peaks as single charged molecules [M+/-H]." />
-        <conditional name="option_toexclude">
-            <param name="option" type="select" label="Exclude samples" >
-                <option value="show">show</option>
-                <option value="hide" selected="true">hide</option>
-            </param>
-            <when value="show">
-                <param name="toexclude" type="text" value="blank,medium,QC" label="samples to be excluded of peak counting to non-annotated peak selection." help="" />
-            </when>
-            <when value="hide" />
-        </conditional>
-        <!--
-        <conditional name="useIso_options">
-            <param name="option" type="select" label="Calculates the relative isotopic abundance ratio (Carbon 13)" >
-                <option value="show">Yes</option>
-                <option value="hide" selected="true">No</option>
-            </param>
-            <when value="show">
-                <param name="var" type="select" label="var (incorporate.isotopes)" help="1 to use standard mean/sd estimators to carbon number prediction, 2 for median/mad estimators." >
-                    <option value="1">1</option>
-                    <option value="2" selected="true">2</option>
+        <section name="getannot" title="Extraction of CAMERA annotation [get.annot]">
+            <param name="allowMiss" type="boolean" checked="true" truevalue="TRUE" falsevalue="FALSE" label="Retrieves peaks with no eviendence of adduct or isotope" help=" [allowMiss] (ionAnnot function) Logical, annotate also the peaks as single charged molecules [M+/-H]." />
+            <conditional name="option_toexclude">
+                <param name="option" type="select" label="Exclude samples" >
+                    <option value="show">show</option>
+                    <option value="hide" selected="true">hide</option>
                 </param>
-            </when>
-        </conditional>
-        -->
-        <param name="html" type="boolean" checked="true" truevalue="TRUE" falsevalue="FALSE" label="Logical, check if you want to generate a HTML ProbMetab report" help=" [html] (export.class.table function).This parameter uses the raw data to plot EICs and may be time consuming." />
+                <when value="show">
+                    <param name="toexclude" type="text" value="blank,medium,QC" label="Samples to be excluded of peak counting to non-annotated peak selection." help="[toexclude]" />
+                </when>
+                <when value="hide" />
+            </conditional>
+        </section>
 
-        <param name="kegg_db" type="text" size="40" label="Search on KEGG database or multiple organisms "  help="Search on all KEGG organisms or multiple organisms (id1,id2,id3,...).By default,the value is KEGG which means searching on all KEGG organism. The list of KEGG IDs are available at http://rest.kegg.jp/list/organism" value="KEGG" >
-            <validator type="empty_field"/>
-        </param>
-        <param name="ppm_tol" type="integer" value="8" label="Parts per million mass tolerance allowed in the mass search" help="[ppm.tol] (create.reactionMfunction) " />
+        <section name="db" title="Database matching [create.reactionM]">
+            <param name="kegg_db" type="text" size="40" label="Search on KEGG database or multiple organisms "  help="Search on all KEGG organisms or multiple organisms (id1,id2,id3,...).By default,the value is KEGG which means searching on all KEGG organism. The list of KEGG IDs are available at http://rest.kegg.jp/list/organism" value="KEGG" >
+                <validator type="empty_field"/>
+            </param>
+            <param name="ppm_tol" type="integer" value="8" label="Parts per million mass tolerance allowed in the mass search" help="[ppm.tol]" />
+            <!--
+            <conditional name="useIso_options">
+                <param name="option" type="select" label="Calculates the relative isotopic abundance ratio (Carbon 13)" >
+                    <option value="show">Yes</option>
+                    <option value="hide" selected="true">No</option>
+                </param>
+                <when value="show">
+                    <param name="var" type="select" label="var (incorporate.isotopes)" help="1 to use standard mean/sd estimators to carbon number prediction, 2 for median/mad estimators." >
+                        <option value="1">1</option>
+                        <option value="2" selected="true">2</option>
+                    </param>
+                </when>
+            </conditional>
+            -->
+        </section>
 
-        <param name="opt" type="select" label="Correlation option" help="[opt] (reac2cor function) cor for correlation, and pcor for partial correlation." >
-            <option value="cor" selected="true">cor</option>
-            <option value="pcor">pcor</option>
-        </param>
+        <section name="export" title="Probability calculations matrix export [export.class.table]">
+            <param name="prob" type="select" label=" Calculation of the probability to attribute a mass to a compound" help="[prob] Default is 'count'. See the tool help for more details." >
+                <option value="count" selected="true">Count</option>
+                <option value="mean">Mean</option>
+            </param>
 
-        <param name="corprob" type="float" value="0.8" label="Probability that the correlation is considered significant" help="[corprob] (reac2cor function) " />
+            <param name="html" type="boolean" checked="true" truevalue="TRUE" falsevalue="FALSE" label="Logical, check if you want to generate a HTML ProbMetab report" help="[html] This parameter uses the raw data to plot EICs and may be time consuming." />
+        </section>
 
-        <param name="pcorprob" type="float" value="0.8" label="Probability that the partial correlation is considered significant." help="[pcorprob](reac2cor function)" />
-        <param name="corths" type="float" value="0.75" label="Correlation intensity threshold" help="[corths] (reac2cor function)" />
+        <section name="reac2cor" title="Calculate the correlations and partial correlations and cross reference then with reactions [reac2cor]">
+            <param name="opt" type="select" label="Correlation option" help="[opt] cor for correlation, and pcor for partial correlation." >
+                <option value="cor" selected="true">cor</option>
+                <option value="pcor">pcor</option>
+            </param>
 
-        <param name="prob" type="select" label=" Calculation of the probability to attribute a mass to a compound" help="[prob] (export.class.table function). Default is 'count'. See the tool help for more details." >
-            <option value="count" selected="true">Count</option>
-            <option value="mean">Mean</option>
-        </param>
+            <param name="corprob" type="float" value="0.8" label="Probability that the correlation is considered significant" help="[corprob]" />
+
+            <param name="pcorprob" type="float" value="0.8" label="Probability that the partial correlation is considered significant." help="[pcorprob]" />
+            <param name="corths" type="float" value="0.75" label="Correlation intensity threshold" help="[corths]" />
+        </section>
+
         <!--
-        <param name="organismId" type="text" size="40" value="NULL" label="organismIdorganismId" help="(create.pathway.node.attributes function) KEGG organism id (http://www.kegg.jp/kegg/catalog/org_list.html) to filter possible pathways for known pathways for that organism. Only works for KEGG database for now. Default is NULL (all KEGG organisms).
-" />
+        <section name="cytoscape" title="CytoScape options">
+            <param name="organismId" type="text" size="40" value="NULL" label="organismIdorganismId" help="(create.pathway.node.attributes function) KEGG organism id (http://www.kegg.jp/kegg/catalog/org_list.html) to filter possible pathways for known pathways for that organism. Only works for KEGG database for now. Default is NULL (all KEGG organisms).
+            " />
+        </section>
         -->
 
         <expand macro="input_file_load"/>
@@ -173,15 +192,15 @@
     <outputs>
         <!-- <data name="output_image" format="rdata" from_work_dir="probmetab.RData" label="Probmetab.RData" /> -->
         <data name="html_output" format="html" from_work_dir="AnalysisExample.html" label="Probmetab.Analysis_Report_html" >
-             <filter>(html)</filter>
+             <filter>(export['html'])</filter>
         </data>
         <data name="tsv_output" format="tabular" from_work_dir="Analysis_Report.tsv" label="Probmetab.CytoScape_output_Attribute_List.tsv" />
         <data name="eics" format="zip" from_work_dir="Analysis_Report.zip" label="Probmetab.Analysis_Report_EICs_plots.zip" >
-            <filter>(html)</filter>
+            <filter>(export['html'])</filter>
         </data>
         <data name="sif_output" format="tabular" from_work_dir="sif.tsv" label="Probmetab.CytoScape_output.sif" />
         <data name="variableMetadata" format="tabular" from_work_dir="variableMetadata.tsv" label="variableMetadata.tsv" >
-            <filter>(drop_new-file_path['mode'] == 'one')</filter>
+            <filter>(acquisition_options['mode'] == 'one')</filter>
         </data>
 
         <data name="CombineMolIon" format="tabular" from_work_dir="CombineMolIon.tsv" label="CombineMolIon.tsv" >
@@ -202,7 +221,9 @@
                 <param name="mode" value="one" />
                 <param name="image" value="faahOK.xset.group.retcor.group.fillPeaks.annotate.negative.Rdata" />
             </conditional>
-            <param name="html" value="FALSE" />
+            <section name="export">
+                <param name="html" value="FALSE" />
+            </section>
             <expand macro="test_file_load_zip"/>
             <assert_stdout>
                 <has_text text="Step 1... determine cutoff point" />
@@ -216,7 +237,9 @@
                 <param name="mode" value="one" />
                 <param name="image" value="faahOK-single.xset.merged.group.retcor.group.fillPeaks.annotate.negative.Rdata" />
             </conditional>
-            <param name="html" value="FALSE" />
+            <section name="export">
+                <param name="html" value="FALSE" />
+            </section>
             <expand macro="test_file_load_single"/>
             <assert_stdout>
                 <has_text text="Step 1... determine cutoff point" />
@@ -407,7 +430,9 @@ Probmetab.CytoScape_output.sif
 Changelog/News
 --------------
 
-**Version 1.1.0 - 15/02/2017**
+**Version 1.1.0 - 06/04/2017**
+
+- IMPROVEMENT: add some sections within to separate the different parts of the process
 
 - IMPROVEMENT: Probmetab is now compatible with merged individual data from xcms.xcmsSet
 
