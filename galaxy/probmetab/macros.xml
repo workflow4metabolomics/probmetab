@@ -40,19 +40,19 @@
     </token>
 
     <token name="@COMMAND_FILE_LOAD_ONE@">
-        #set file_load_section_selected = $file_load_section
+        #set file_load_section_selected = $acquisition_options.file_load_section
         #set polarity=""
         @COMMAND_FILE_LOAD_NEUTRAL@
     </token>
 
     <token name="@COMMAND_FILE_LOAD_POSITIVE@">
-        #set file_load_section_selected = $file_load_sectionPositive
+        #set file_load_section_selected = $acquisition_options.file_load_sectionPositive
         #set polarity="Positive"
         @COMMAND_FILE_LOAD_NEUTRAL@
     </token>
 
     <token name="@COMMAND_FILE_LOAD_NEGATIVE@">
-        #set file_load_section_selected = $file_load_sectionNegative
+        #set file_load_section_selected = $acquisition_options.file_load_sectionNegative
         #set polarity="Negative"
         @COMMAND_FILE_LOAD_NEUTRAL@
     </token>
@@ -81,6 +81,29 @@
                     </conditional>
                 </when>
             </conditional>
+        </section>
+    </xml>
+
+    <xml name="test_commun">
+        <section name="getannot">
+            <param name="allowMiss" value="TRUE" />
+            <conditional name="option_toexclude">
+                <param name="option" value="hide" />
+            </conditional>
+        </section>
+        <section name="db">
+            <param name="kegg_db" value="KEGG" />
+            <param name="ppm_tol" value="8" />
+        </section>
+        <section name="export">
+            <param name="prob" value="count" />
+            <param name="html" value="FALSE" />
+        </section>
+        <section name="reac2cor">
+            <param name="opt" value="cor" />
+            <param name="corprob" value="0.8" />
+            <param name="pcorprob" value="0.8" />
+            <param name="corths" value="0.75" />
         </section>
     </xml>
 

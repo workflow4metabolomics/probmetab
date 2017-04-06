@@ -87,6 +87,7 @@
                     </when>
                 </conditional>
                 -->
+                <expand macro="input_file_load"/>
             </when>
             <!-- Two acquisition modes-->
             <when value="two">
@@ -117,6 +118,8 @@
                         </conditional>
                         -->
                     </when>
+                    <expand macro="input_file_load" polarity="Positive"/>
+                    <expand macro="input_file_load" polarity="Negative"/>
                 </conditional>
             </when>
         </conditional>
@@ -184,9 +187,6 @@
         </section>
         -->
 
-        <expand macro="input_file_load"/>
-        <expand macro="input_file_load" polarity="Positive"/>
-        <expand macro="input_file_load" polarity="Negative"/>
     </inputs>
 
     <outputs>
@@ -221,9 +221,7 @@
                 <param name="mode" value="one" />
                 <param name="image" value="faahOK.xset.group.retcor.group.fillPeaks.annotate.negative.Rdata" />
             </conditional>
-            <section name="export">
-                <param name="html" value="FALSE" />
-            </section>
+            <expand macro="test_commun"/>
             <expand macro="test_file_load_zip"/>
             <assert_stdout>
                 <has_text text="Step 1... determine cutoff point" />
@@ -237,9 +235,7 @@
                 <param name="mode" value="one" />
                 <param name="image" value="faahOK-single.xset.merged.group.retcor.group.fillPeaks.annotate.negative.Rdata" />
             </conditional>
-            <section name="export">
-                <param name="html" value="FALSE" />
-            </section>
+            <expand macro="test_commun"/>
             <expand macro="test_file_load_single"/>
             <assert_stdout>
                 <has_text text="Step 1... determine cutoff point" />
