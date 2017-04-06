@@ -118,9 +118,9 @@
                         </conditional>
                         -->
                     </when>
-                    <expand macro="input_file_load" polarity="Positive"/>
-                    <expand macro="input_file_load" polarity="Negative"/>
                 </conditional>
+                <expand macro="input_file_load" polarity="Positive"/>
+                <expand macro="input_file_load" polarity="Negative"/>
             </when>
         </conditional>
 
