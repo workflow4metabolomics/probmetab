@@ -42,7 +42,9 @@ if(listArguments[["mode_acquisition"]]=="one") {
     print(xa)
 
     source_local("lib.r")
-    rawFilePath = getRawfilePathFromArguments(listArguments)
+    if (!exists("zipfile")) zipfile=NULL
+    if (!exists("singlefile")) singlefile=NULL
+    rawFilePath = getRawfilePathFromArguments(singlefile, zipfile, listArguments)
     zipfile = rawFilePath$zipfile
     singlefile = rawFilePath$singlefile
     retrieveRawfileInTheWorkingDirectory(singlefile, zipfile)
@@ -63,7 +65,9 @@ if(listArguments[["mode_acquisition"]]=="one") {
     else variableMetadataP = variableMetadata
 
     source_local("lib.r")
-    rawFilePath = getRawfilePathFromArguments(listArguments)
+    if (!exists("zipfile")) zipfile=NULL
+    if (!exists("singlefile")) singlefile=NULL
+    rawFilePath = getRawfilePathFromArguments(singlefile, zipfile, listArguments)
     zipfilePos = rawFilePath$zipfile
     singlefilePos = rawFilePath$singlefile
     retrieveRawfileInTheWorkingDirectory(singlefilePos, zipfilePos)
@@ -80,7 +84,9 @@ if(listArguments[["mode_acquisition"]]=="one") {
     else variableMetadataN = variableMetadata
 
     source_local("lib.r")
-    rawFilePath = getRawfilePathFromArguments(listArguments)
+    if (!exists("zipfile")) zipfile=NULL
+    if (!exists("singlefile")) singlefile=NULL
+    rawFilePath = getRawfilePathFromArguments(singlefile, zipfile, listArguments)
     zipfileNeg = rawFilePath$zipfile
     singlefileNeg = rawFilePath$singlefile
     retrieveRawfileInTheWorkingDirectory(singlefileNeg, zipfileNeg)
