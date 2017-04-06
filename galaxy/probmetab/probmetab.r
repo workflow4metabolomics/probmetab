@@ -21,6 +21,9 @@ source_local <- function(fname){
     base_dir <- dirname(substring(argv[grep("--file=", argv)], 8))
     source(paste(base_dir, fname, sep="/"))
 }
+
+options(bitmapType='cairo')
+
 cat("\n\n")
 
 
