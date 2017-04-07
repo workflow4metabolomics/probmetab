@@ -1,7 +1,9 @@
 Changelog/News
 --------------
 
-**Version 1.1.0 - 15/02/2017**
+**Version 1.1.0 - 06/04/2017**
+
+- IMPROVEMENT: add some sections within to separate the different parts of the process
 
 - IMPROVEMENT: Probmetab is now compatible with merged individual data from xcms.xcmsSet
 
