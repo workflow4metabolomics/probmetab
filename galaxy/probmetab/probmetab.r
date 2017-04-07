@@ -21,9 +21,6 @@ source_local <- function(fname){
     base_dir <- dirname(substring(argv[grep("--file=", argv)], 8))
     source(paste(base_dir, fname, sep="/"))
 }
-
-options(bitmapType='cairo')
-
 cat("\n\n")
 
 
@@ -81,7 +78,7 @@ if(listArguments[["mode_acquisition"]]=="one") {
     if (!exists("xa"))  xaN=xsAnnotate_object
     else xaN=xa
     cat("\t\tXA-NEGATIVE OBJECT INFO\n")
-    print(xaP)
+    print(xaN)
 
     if (!exists("variableMetadata")) variableMetadataN = getVariableMetadata(xa)
     else variableMetadataN = variableMetadata
@@ -105,7 +102,7 @@ cat("\tMAIN PROCESSING INFO\n")
 if(listArguments[["mode_acquisition"]]=="one") {
     results=probmetab(xa=xa, variableMetadata=variableMetadata,listArguments=listArguments)
 } else if(listArguments[["inputs_mode"]]=="two"){
-    results=probmetab(xaP=xaP, xaN=xaN,variableMetadataP=variableMetadataP, variableMetadataN=variableMetadataN, listArguments=listArguments)
+    results=probmetab(xaP=xaP, xaN=xaN, variableMetadataP=variableMetadataP, variableMetadataN=variableMetadataN, listArguments=listArguments)
 }
 #delete the parameters to avoid the passage to the next tool in .RData image
 #rm(listArguments)
