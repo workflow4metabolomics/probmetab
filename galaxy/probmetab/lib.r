@@ -122,7 +122,7 @@ probmetab = function(xa, xaP, xaN, variableMetadata, variableMetadataP, variable
     ansConn = export.class.table(conn, reactionM, ionAnnot, DB=DB,html=listArguments[["html"]],filename="AnalysisExample",prob=listArguments[["prob"]])
     if(listArguments[["html"]]){
         #Zip the EICS plot
-        system(paste('zip -r "Analysis_Report.zip" "AnalysisExample_fig"'))
+        system(paste('zip -rq "Analysis_Report.zip" "AnalysisExample_fig"'))
     }
 
     # calculate the correlations and partial correlations and cross reference then with reactions
