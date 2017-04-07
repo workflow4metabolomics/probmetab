@@ -50,8 +50,8 @@ probmetab = function(xa, xaP, xaN, variableMetadata, variableMetadataP, variable
         #}
         # include CAMERA non-annotated compounds, and snr retrieval
         # comb 2+ - used on Table 1
-        ionAnnotP2plus = get.annot(axP, allowMiss=listArguments[["allowMiss"]], xset=xsetPnofill,toexclude=listArguments[["toexclude"]])
-        ionAnnotN2plus = get.annot(axN, polarity="negative", allowMiss=listArguments[["allowMiss"]], xset=xsetNnofill,toexclude=listArguments[["toexclude"]])
+        ionAnnotP2plus = get.annot(xaP, allowMiss=listArguments[["allowMiss"]], xset=xsetPnofill,toexclude=listArguments[["toexclude"]])
+        ionAnnotN2plus = get.annot(xaN, polarity="negative", allowMiss=listArguments[["allowMiss"]], xset=xsetNnofill,toexclude=listArguments[["toexclude"]])
         ionAnnot = combineMolIon(ionAnnotP2plus, ionAnnotN2plus)
         print(sum(ionAnnot$molIon[,3]==1))
         print(sum(ionAnnot$molIon[,3]==0))
