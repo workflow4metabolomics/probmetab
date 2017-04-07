@@ -148,10 +148,10 @@ probmetab = function(xa, xaP, xaN, variableMetadata, variableMetadataP, variable
         write.table(variableM, sep="\t", quote=FALSE, row.names=FALSE, file="variableMetadata.tsv")
     } else if (listArguments[["mode_acquisition"]]=="two") {
         #Retrocompatibility with previous annotateDiffreport variableMetadata dataframe (must replace mzmed column by mz, and rtmed by rt)
-        names(variableMetadataP)[names(variableMetadata)=="mzmed"] <- "mz"
-        names(variableMetadataP)[names(variableMetadata)=="rtmed"] <- "rt"
-        names(variableMetadataN)[names(variableMetadata)=="mzmed"] <- "mz"
-        names(variableMetadataN)[names(variableMetadata)=="rtmed"] <- "rt"
+        names(variableMetadataP)[names(variableMetadataP)=="mzmed"] <- "mz"
+        names(variableMetadataP)[names(variableMetadataP)=="rtmed"] <- "rt"
+        names(variableMetadataN)[names(variableMetadataN)=="mzmed"] <- "mz"
+        names(variableMetadataN)[names(variableMetadataN)=="rtmed"] <- "rt"
         variableMP=merge_probmetab(variableMetadataP, ansConn)
         write.table(variableMP, sep="\t", quote=FALSE, row.names=FALSE, file="variableMetadata_Positive.tsv")
         variableMN=merge_probmetab(variableMetadataN, ansConn)
