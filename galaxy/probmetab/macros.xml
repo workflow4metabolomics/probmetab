@@ -27,32 +27,30 @@
     <!-- raw file load for planemo test -->
     <token name="@COMMAND_FILE_LOAD_NEUTRAL@">
         #if $file_load_section_selected.file_load_conditional.file_load_select == "yes":
-            #if $file_load_section_selected.file_load_conditional.inputs.input == "zip_file":
-                zipfile$polarity '$file_load_section_selected.file_load_conditional.inputs.zip_file'
+            #if $file_load_section_selected.file_load_conditional.input[0].is_of_type("mzxml") or $file_load_section_selected.file_load_conditional.input[0].is_of_type("mzml") or $file_load_section_selected.file_load_conditional.input[0].is_of_type("mzdata") or $file_load_section_selected.file_load_conditional.input[0].is_of_type("netcdf"):
+                #set singlefile_galaxyPath = ','.join( [ str( $single_file ) for $single_file in $file_load_section_selected.file_load_conditional.input ] )
+                #set singlefile_sampleName = ','.join( [ str( $single_file.name ) for $single_file in $file_load_section_selected.file_load_conditional.input ] )
+                singlefile_galaxyPath$polarity '$singlefile_galaxyPath' singlefile_sampleName$polarity '$singlefile_sampleName'
             #else
-                #set singlefile_galaxyPath = ','.join( [ str( $single_file ) for $single_file in $file_load_section_selected.file_load_conditional.inputs.single_file ] )
-                #set singlefile_sampleName = ','.join( [ str( $single_file.name ) for $single_file in $file_load_section_selected.file_load_conditional.inputs.single_file ] )
-
-                singlefile_galaxyPath$polarity '$singlefile_galaxyPath'
-                singlefile_sampleName$polarity '$singlefile_sampleName'
+                zipfile$polarity '$file_load_section_selected.file_load_conditional.input'
             #end if
         #end if
     </token>
 
     <token name="@COMMAND_FILE_LOAD_ONE@">
-        #set file_load_section_selected = $file_load_section
+        #set file_load_section_selected = $acquisition_options.file_load_section
         #set polarity=""
         @COMMAND_FILE_LOAD_NEUTRAL@
     </token>
 
     <token name="@COMMAND_FILE_LOAD_POSITIVE@">
-        #set file_load_section_selected = $file_load_sectionPositive
+        #set file_load_section_selected = $acquisition_options.file_load_sectionPositive
         #set polarity="Positive"
         @COMMAND_FILE_LOAD_NEUTRAL@
     </token>
 
     <token name="@COMMAND_FILE_LOAD_NEGATIVE@">
-        #set file_load_section_selected = $file_load_sectionNegative
+        #set file_load_section_selected = $acquisition_options.file_load_sectionNegative
         #set polarity="Negative"
         @COMMAND_FILE_LOAD_NEUTRAL@
     </token>
@@ -67,20 +65,32 @@
                 <when value="no">
                 </when>
                 <when value="yes">
-                    <conditional name="inputs">
-                        <param name="input" type="select" label="Choose your inputs method" >
-                            <option value="zip_file" selected="true">Zip file from your history containing your chromatograms</option>
-                            <option value="single_file">A mzXML or netCDF file from your history</option>
-                        </param>
-                        <when value="zip_file">
-                            <param name="zip_file" type="data" format="no_unzip.zip,zip" label="Zip file" />
-                        </when>
-                        <when value="single_file">
-                            <param name="single_file" type="data" format="mzxml,netcdf" label="Single file"  multiple="true"/>
-                        </when>
-                    </conditional>
+                    <param name="input" type="data" format="mzxml,mzml,mzdata,netcdf,no_unzip.zip,zip" multiple="true" label="File(s) from your history containing your chromatograms" help="Single file mode for the format: mzxml, mzml, mzdata and netcdf. Zip file mode for the format: no_unzip.zip, zip. See the help section below." />
                 </when>
             </conditional>
+        </section>
+    </xml>
+
+    <xml name="test_commun">
+        <section name="getannot">
+            <param name="allowMiss" value="TRUE" />
+            <conditional name="option_toexclude">
+                <param name="option" value="hide" />
+            </conditional>
+        </section>
+        <section name="db">
+            <param name="kegg_db" value="KEGG" />
+            <param name="ppm_tol" value="8" />
+        </section>
+        <section name="export">
+            <param name="prob" value="count" />
+            <param name="html" value="FALSE" />
+        </section>
+        <section name="reac2cor">
+            <param name="opt" value="cor" />
+            <param name="corprob" value="0.8" />
+            <param name="pcorprob" value="0.8" />
+            <param name="corths" value="0.75" />
         </section>
     </xml>
 
@@ -88,10 +98,7 @@
         <section name="file_load_section">
             <conditional name="file_load_conditional">
                 <param name="file_load_select" value="yes" />
-                <conditional name="inputs">
-                    <param name="input" value="zip_file" />
-                    <param name="zip_file" value="faahKO_reduce.zip"  ftype="zip" />
-                </conditional>
+                <param name="input" value="faahKO_reduce.zip" ftype="zip" />
             </conditional>
         </section>
     </xml>
@@ -100,10 +107,7 @@
         <section name="file_load_section@POLARITY@">
             <conditional name="file_load_conditional">
                 <param name="file_load_select" value="yes" />
-                <conditional name="inputs">
-                    <param name="input" value="single_file" />
-                    <param name="single_file" value="wt15.CDF,ko16.CDF,ko15.CDF,wt16.CDF"  ftype="netcdf" />
-                </conditional>
+                <param name="input" value="wt15.CDF,ko16.CDF,ko15.CDF,wt16.CDF" ftype="netcdf" />
             </conditional>
         </section>
     </xml>
@@ -118,7 +122,7 @@
 
 .. class:: infomark
 
-**Galaxy integration** Misharl Monsoor misharl.monsoor@sb-roscoff.fr ABIMS TEAM, Station biologique de Roscoff.
+**Galaxy integration** Misharl Monsoor misharl.monsoor@sb-roscoff.fr (and Gildas Le Corguillé) from ABIMS TEAM, Station biologique de Roscoff.
 
  | Contact support@workflow4metabolomics.org for any questions or concerns about the Galaxy implementation of this tool.
 
