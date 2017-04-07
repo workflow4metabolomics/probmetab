@@ -124,7 +124,7 @@
             </when>
         </conditional>
 
-        <section name="getannot" title="Extraction of CAMERA annotation [get.annot]">
+        <section name="getannot" title="Extraction of CAMERA annotation [get.annot]" expanded="True">
             <param name="allowMiss" type="boolean" checked="true" truevalue="TRUE" falsevalue="FALSE" label="Retrieves peaks with no eviendence of adduct or isotope" help=" [allowMiss] (ionAnnot function) Logical, annotate also the peaks as single charged molecules [M+/-H]." />
             <conditional name="option_toexclude">
                 <param name="option" type="select" label="Exclude samples" >
@@ -138,7 +138,7 @@
             </conditional>
         </section>
 
-        <section name="db" title="Database matching [create.reactionM]">
+        <section name="db" title="Database matching [create.reactionM]" expanded="True">
             <param name="kegg_db" type="text" size="40" label="Search on KEGG database or multiple organisms "  help="Search on all KEGG organisms or multiple organisms (id1,id2,id3,...).By default,the value is KEGG which means searching on all KEGG organism. The list of KEGG IDs are available at http://rest.kegg.jp/list/organism" value="KEGG" >
                 <validator type="empty_field"/>
             </param>
@@ -159,7 +159,7 @@
             -->
         </section>
 
-        <section name="export" title="Probability calculations matrix export [export.class.table]">
+        <section name="export" title="Probability calculations matrix export [export.class.table]" expanded="True">
             <param name="prob" type="select" label=" Calculation of the probability to attribute a mass to a compound" help="[prob] Default is 'count'. See the tool help for more details." >
                 <option value="count" selected="true">Count</option>
                 <option value="mean">Mean</option>
@@ -168,7 +168,7 @@
             <param name="html" type="boolean" checked="true" truevalue="TRUE" falsevalue="FALSE" label="Logical, check if you want to generate a HTML ProbMetab report" help="[html] This parameter uses the raw data to plot EICs and may be time consuming." />
         </section>
 
-        <section name="reac2cor" title="Calculate the correlations and partial correlations and cross reference then with reactions [reac2cor]">
+        <section name="reac2cor" title="Calculate the correlations and partial correlations and cross reference then with reactions [reac2cor]" expanded="True">
             <param name="opt" type="select" label="Correlation option" help="[opt] cor for correlation, and pcor for partial correlation." >
                 <option value="cor" selected="true">cor</option>
                 <option value="pcor">pcor</option>
